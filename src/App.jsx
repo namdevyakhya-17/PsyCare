@@ -24,7 +24,7 @@ function App() {
         <Route path='/appointments' element={<AppointmentsPage />} />
         <Route path='/auth' element={<AuthSection />} />
       </Routes>
-      {/* <Footer /> */}
+      <Footer />
     </Router>
   )
 }

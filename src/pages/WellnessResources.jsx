@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Leaf,
   Bed,
@@ -6,182 +6,147 @@ import {
   Brain,
   PhoneOutgoing,
   Gamepad,
+  Star,
+  StarHalf,
 } from "lucide-react";
-import { Link } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
 
-const categories = [
-  "All",
-  "Popular",
-  "Trending",
-  "Essential",
-  "Featured",
-  "Emergency",
-  "Fun",
-];
+const categories = ["All", "Popular", "Trending", "Essential", "Featured", "Emergency", "Fun"];
 
 const resources = [
   {
     title: "Stress Management",
-    tag: "Popular",
     rating: 4.8,
-    description:
-      "Learn effective techniques to manage academic and personal stress",
+    description: "Learn effective techniques to manage academic and personal stress",
     details: "12 exercises",
-    icon: <Leaf className="text-green-600" size={22} />,
-    route: "/stress-management"
+    icon: <Leaf className="text-green-600" size={28} />,
+    route: "/stress-management",
+    category: "Essential",
+    bgColor: "bg-yellow-50",
   },
   {
     title: "Sleep Audio Library",
-    tag: "Trending",
     rating: 4.9,
-    description:
-      "Guided meditations and calming sounds for better sleep",
+    description: "Guided meditations and calming sounds for better sleep",
     details: "25 audios",
-    icon: <Bed className="text-teal-600" size={22} />,
-    route: "/sleep-library"
+    icon: <Bed className="text-blue-600" size={28} />,
+    route: "/sleep-library",
+    category: "Popular",
+    bgColor: "bg-blue-50",
   },
   {
     title: "Breathing Exercises",
-    tag: "Essential",
     rating: 4.7,
     description: "Simple breathing techniques for anxiety and relaxation",
     details: "8 techniques",
-    icon: <Wind className="text-cyan-600" size={22} />,
-    route: "/breath"
+    icon: <Wind className="text-orange-600" size={28} />,
+    route: "/breath",
+    category: "Trending",
+    bgColor: "bg-orange-50",
   },
   {
     title: "Mindfulness Practice",
-    tag: "Featured",
     rating: 4.8,
     description: "Daily mindfulness exercises to improve mental clarity",
     details: "15 practices",
-    icon: <Brain className="text-green-700" size={22} />,
-    route: "/mindfulness"
-  },
-  {
-    title: "Crisis Support",
-    tag: "Emergency",
-    rating: 5.0,
-    description: "Immediate help resources and emergency contact information",
-    details: "24/7 support",
-    icon: <PhoneOutgoing className="text-red-600" size={22} />,
-    route: "/crisis-support"
+    icon: <Brain className="text-purple-600" size={28} />,
+    route: "/mindfulness",
+    category: "Featured",
+    bgColor: "bg-purple-50",
   },
   {
     title: "Interactive Games",
-    tag: "Fun",
     rating: 4.6,
     description: "Fun games designed to boost mood and reduce anxiety",
     details: "6 games",
-    icon: <Gamepad className="text-pink-500" size={22} />,
-    route: "/interactive-games"
+    icon: <Gamepad className="text-pink-600" size={28} />,
+    route: "/interactive-games",
+    category: "Fun",
+    bgColor: "bg-pink-50",
   },
 ];
 
 export default function Resources() {
-  const navigate = useNavigate();
+  const [selectedCategory, setSelectedCategory] = useState("All");
+
+  const filteredResources =
+    selectedCategory === "All"
+      ? resources
+      : resources.filter((res) => res.category === selectedCategory);
+
+  const handleNavigation = (route) => {
+    alert(`Navigating to: ${route}`);
+  };
 
   return (
-    <div
-      id="resources"
-      className="relative min-h-screen overflow-x-hidden bg-green-50 flex flex-col items-center py-16 px-10"
-    >
-      {/* Large colored circles as background decoration */}
-      <div className="absolute top-0 left-0 w-[320px] h-[320px] rounded-full bg-green-300 opacity-40 blur-[100px] filter animate-floatSlow"></div>
-      <div className="absolute top-28 right-24 w-[450px] h-[450px] rounded-full bg-emerald-300 opacity-30 blur-[150px] filter animate-float"></div>
-      <div className="absolute bottom-32 left-24 w-[300px] h-[300px] rounded-full bg-teal-400 opacity-25 blur-[120px] filter animate-floatSlow"></div>
-      <div className="absolute bottom-10 right-36 w-[380px] h-[380px] rounded-full bg-lime-200 opacity-35 blur-[130px] filter animate-float"></div>
-
-      <div className="relative z-10 max-w-7xl w-full">
-        {/* Heading */}
-        <div className="text-center mb-12">
-          <h2 className="text-4xl font-bold text-green-900 mb-2">Wellness Resources Hub</h2>
-          <p className="text-base text-green-800 max-w-2xl mx-auto">
-            Explore our comprehensive collection of mental health tools and resources
+    <div className="min-h-screen bg-gradient-to-br from-green-50 via-white to-green-100 py-12 px-4 sm:px-6 lg:px-20">
+      <div className="max-w-7xl mx-auto">
+        {/* Header */}
+        <header className="text-center mb-12 sm:mb-16">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-green-900 mb-3 sm:mb-4">
+            Wellness Resources Hub
+          </h1>
+          <p className="max-w-xl mx-auto text-green-800 text-sm sm:text-base md:text-lg leading-relaxed">
+            Explore our curated collection of mental health tools and resources designed to improve your well-being.
           </p>
-        </div>
+        </header>
 
         {/* Categories */}
-        <div className="flex justify-center flex-wrap gap-4 mb-12">
-          {categories.map((cat, idx) => (
+        <nav className="flex justify-center flex-wrap gap-3 sm:gap-4 mb-12 sm:mb-16">
+          {categories.map((cat) => (
             <button
-              key={idx}
-              className="px-6 py-2 rounded-full bg-green-100 border border-green-200 text-green-800 hover:bg-green-200 transition text-sm shadow-md"
+              key={cat}
+              onClick={() => setSelectedCategory(cat)}
+              className={`px-4 sm:px-6 py-2 sm:py-3 rounded-full font-medium text-sm sm:text-base transition-all duration-300 focus:outline-none
+                ${selectedCategory === cat
+                  ? "bg-green-700 text-white shadow-md scale-105"
+                  : "bg-white border border-green-300 text-green-800 hover:bg-green-100 hover:border-green-400 hover:scale-105"}`}
             >
               {cat}
             </button>
           ))}
-        </div>
+        </nav>
 
-        {/* Cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 relative">
-          {resources.map((res, idx) => (
-            <div
+        {/* Cards Grid */}
+        <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+          {filteredResources.map((res, idx) => (
+            <article
               key={idx}
-              className="bg-white rounded-xl p-6 shadow-lg hover:shadow-xl hover:-translate-y-1 transition duration-300"
+              className={`rounded-3xl p-6 sm:p-8 shadow-lg border border-green-100 flex flex-col
+                transition-transform duration-300 hover:shadow-2xl hover:-translate-y-2 bg-white
+                ${res.bgColor} ring-1 ring-green-100`}
             >
-              <div className="flex items-center gap-5 mb-5">
-                <div>{res.icon}</div>
-                <h5 className="text-lg font-semibold text-green-900">{res.title}</h5>
+              <div className="flex items-center gap-4 sm:gap-5 mb-4 sm:mb-6">
+                <div className="w-12 h-12 sm:w-14 sm:h-14 flex items-center justify-center rounded-full bg-white shadow-md animate-bounce-slow">
+                  {res.icon}
+                </div>
+                <div>
+                  <h2 className="text-lg sm:text-xl font-semibold text-green-900">{res.title}</h2>
+                  <div className="flex items-center gap-1 mt-1">
+                    {[...Array(Math.floor(res.rating))].map((_, i) => (
+                      <Star key={i} className="text-yellow-400 w-4 h-4" />
+                    ))}
+                    {res.rating % 1 >= 0.5 && <StarHalf className="text-yellow-400 w-4 h-4" />}
+                    <span className="text-green-800 text-xs sm:text-sm font-medium ml-1">{res.rating.toFixed(1)}</span>
+                  </div>
+                </div>
               </div>
-
-              <div className="flex justify-between items-center mb-4">
-                <span className="bg-green-50 text-green-700 px-3 py-1 rounded-md text-xs font-semibold">
-                  {res.tag}
-                </span>
-                <span className="text-yellow-400 text-sm font-semibold">⭐ {res.rating}</span>
-              </div>
-
-              <p className="text-green-800 text-sm leading-relaxed mb-4">{res.description}</p>
-              <small className="text-green-600 text-xs">{res.details}</small>
-
-              <div className="mt-5 flex gap-4">
+              <p className="flex-grow text-green-900 mb-4 sm:mb-6 text-sm sm:text-base">{res.description}</p>
+              <p className="mb-4 sm:mb-8 text-xs sm:text-sm font-semibold text-green-700">{res.details}</p>
+              <div className="flex gap-3 sm:gap-5 mt-auto flex-wrap">
                 <button
-                  className="px-5 py-2 rounded-lg bg-green-600 text-white hover:bg-green-700 text-sm font-semibold transition"
-                  onClick={() => navigate(res.route)}
+                  onClick={() => handleNavigation(res.route)}
+                  className="flex-1 py-2 sm:py-3 rounded-xl bg-gradient-to-r from-green-500 to-green-700 text-white font-semibold shadow-md hover:scale-105 transition-transform duration-300"
                 >
                   Start
                 </button>
-                <button className="px-5 py-2 rounded-lg bg-gray-100 text-gray-700 hover:bg-gray-200 text-sm font-semibold transition">
+                <button className="flex-1 py-2 sm:py-3 rounded-xl border border-green-300 text-green-800 hover:bg-green-100 transition-colors duration-300">
                   Preview
                 </button>
               </div>
-            </div>
+            </article>
           ))}
-
-          {/* Slim Card for Testing */}
-          <div className="col-span-1 sm:col-span-2 lg:col-span-3 bg-white rounded-xl p-6 shadow hover:shadow-lg hover:-translate-y-1 transition duration-300 flex items-center justify-between">
-            <div>
-              <h5 className="text-lg font-semibold text-green-900">Test Your Condition</h5>
-              <p className="text-green-800 text-sm mt-1">
-                Take a quick self-assessment to understand your mental wellness better
-              </p>
-            </div>
-            <Link
-              to="/tests"
-              className="px-5 py-2 rounded-lg bg-green-600 text-white hover:bg-green-700 text-sm font-semibold transition"
-            >
-              Start
-            </Link>
-          </div>
-        </div>
+        </section>
       </div>
-
-      <style jsx>{`
-        @keyframes float {
-          0% { transform: translateY(0px); }
-          50% { transform: translateY(20px); }
-          100% { transform: translateY(0px); }
-        }
-        @keyframes floatSlow {
-          0% { transform: translateY(0px); }
-          50% { transform: translateY(10px); }
-          100% { transform: translateY(0px); }
-        }
-        .animate-float { animation: float 6s ease-in-out infinite; }
-        .animate-floatSlow { animation: floatSlow 8s ease-in-out infinite; }
-      `}</style>
     </div>
   );
 }

@@ -31,7 +31,10 @@ const Navbar = () => {
     <nav className="w-full bg-[#F5FCF8] border-b border-gray-300 sticky top-0 z-50">
       <div className="flex items-center justify-between px-4 sm:px-6 lg:px-8 py-3 sm:py-4">
         {/* Logo */}
-        <div className="flex items-center">
+        <div
+          className="flex items-center cursor-pointer"
+          onClick={() => navigate("/")}
+        >
           <img
             src="logo.png"
             alt="psycare-logo"
@@ -56,11 +59,10 @@ const Navbar = () => {
                 setActiveIndex(idx);
                 navigate(route);
               }}
-              className={`flex items-center px-3 xl:px-4 py-1 text-sm xl:text-md font-medium rounded-full transition ${
-                activeIndex === idx
+              className={`flex items-center px-3 xl:px-4 py-1 text-sm xl:text-md font-medium rounded-full transition ${activeIndex === idx
                   ? "bg-white text-gray-800 shadow-sm"
                   : "text-gray-600 hover:text-green-700"
-              }`}
+                }`}
             >
               <Icon className="w-4 h-4 mr-1" />
               <span className="hidden xl:inline">{name}</span>
@@ -103,11 +105,10 @@ const Navbar = () => {
                   setIsMobileMenuOpen(false);
                   navigate(route);
                 }}
-                className={`flex items-center w-full px-4 py-3 text-sm font-medium rounded-lg transition ${
-                  activeIndex === idx
+                className={`flex items-center w-full px-4 py-3 text-sm font-medium rounded-lg transition ${activeIndex === idx
                     ? "bg-green-50 text-green-700 border border-green-200"
                     : "text-gray-600 hover:bg-gray-50 hover:text-green-700"
-                }`}
+                  }`}
               >
                 <Icon className="w-5 h-5 mr-3" />
                 {name}
